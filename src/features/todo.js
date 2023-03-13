@@ -11,16 +11,20 @@ export const todoSlice = createSlice({
             state.value =  [todo, ...state.value];
           },
         complete : (state, action) => {
-            const mapping = state.value.map((x) => x.id === action.payload ? { ...x, completed: !x.completed } : x); 
-            state.value = mapping;
+            const taskCompleted = state.value.map((x) => x.id === action.payload ? { ...x, completed: !x.completed } : x); 
+            state.value = taskCompleted;
           },   
         deleteTodos : (state, action) => {
-            const deleteTask = state.value.filter((x) => x.id !== action.payload);
-            state.value = deleteTask;
-  }
+            const taskToDelete = state.value.filter((x) => x.id !== action.payload);
+            state.value = taskToDelete;
+  },
+  editTodos : (state, action) => {
+    const editTodoTaskName = state.value.map((x) => x.id === action.payload.id ? { ...x, task: action.payload.task } : x);
+    state.value = editTodoTaskName;
+  } 
     }
 })
 
-export const {addTodos, complete, deleteTodos} = todoSlice.actions;
+export const {addTodos, complete, deleteTodos, editTodos} = todoSlice.actions;
 
 export default todoSlice.reducer;
