@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -6,22 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import todo from "../src/features/todo"
-import newTask from './features/newTask';
 
 const store = configureStore({
   reducer: {
-    todos: todo,
-    newTask: newTask
+    todos: todo
   }
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
     <App />
     </Provider>
-  </React.StrictMode>
+  </StrictMode>
 );
 
 reportWebVitals();
