@@ -1,13 +1,12 @@
+import { useState } from "react";
 import { FiTrash, FiPlus } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { addTodos, complete, deleteTodos } from "./features/todo";
-import { newesTask } from "./features/newTask";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodos, complete, deleteTodos, editTodos } from "./features/todo";
 
 const App = () => {
 
   const todos = useSelector((state) => state.todos.value)
-  const newTask = useSelector((state) => state.newTask.value)
+  const [newTask, setNewTask] = useState("");
   const dispatch = useDispatch();
 
   return (
@@ -18,7 +17,7 @@ const App = () => {
         </h1>
         <div className="flex items-center border border-gray-200 rounded-lg h-12 w-1/3 mt-10 bg-slate-100 text-black">
           <input
-            onChange={(e) => dispatch(newesTask(e.target.value))}
+            onChange={(e) => setNewTask(e.target.value)}
             type="search"
             className="w-full px-5 bg-transparent outline-none"
             placeholder="Add todo..."
@@ -27,6 +26,7 @@ const App = () => {
           <button
             onClick={() => {
               dispatch(addTodos(newTask))
+              setNewTask("")
             }}
             className="text-white rounded-r-lg w-12 flex justify-center items-center bg-green-500 h-full border border-green-500 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-500 dark:bg-green-500 dark:hover:bg-green-500 dark:focus:ring-green-500"
           >
@@ -45,6 +45,8 @@ const App = () => {
                   class='w-6 h-6 mr-3 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                 />
                 <label
+                contentEditable={true}
+                onBlur = {(e) => dispatch(editTodos({id: _todo.id, task: e.target.textContent}))}
                   htmlFor="default-checkbox"
                   class={`text-3xl font-medium text-gray-900 dark:text-white ${_todo.completed && "line-through"}`}
                 >
